@@ -9,7 +9,7 @@ unsigned int sleepTime = 9680;
 float voMeasured = 0;
 float calcVoltage = 0;
 float dustDensity = 0;
-
+float normalizedDustDensity = 0;
 const char* ssid = "InClean";
 
 const char* pass = "abcdef0123";
@@ -20,29 +20,29 @@ const char * host = "192.168.0.10";
 
 
 void setup(){
-  Serial.begin(9600);
+  Serial.begin(115200);
   pinMode(ledPower,OUTPUT);
-  WiFi.begin(ssid, pass);
+  //WiFi.begin(ssid, pass);
 
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.println("Connecting...");
-  }
+  //while (WiFi.status() != WL_CONNECTED) {
+  //  delay(500);
+  //  Serial.println("Connecting...");
+ // }
   
-  Serial.print("WiFi connected with IP: ");
-  Serial.println(WiFi.localIP());
+  //Serial.print("WiFi connected with IP: ");
+  //Serial.println(WiFi.localIP());
 }
 
 void loop(){
-  WiFiClient client;
+ // WiFiClient client;
  
   
-  if (!client.connect(host, port)) {
-    Serial.println("Connection to host failed");
-    delay(1000);
-    return;
-  }
-  Serial.println("Connected to Raspberry Pi!");
+  //if (!client.connect(host, port)) {
+  //  Serial.println("Connection to host failed");
+  //  delay(1000);
+  //  return;
+ // }
+ // Serial.println("Connected to Raspberry Pi!");
   
   digitalWrite(ledPower,LOW);
   delayMicroseconds(samplingTime);
@@ -66,12 +66,13 @@ void loop(){
 
   //Serial.println("Voltage:");
   //Serial.println(calcVoltage);
+  normalizedDustDensity = dustDensity *1000;
 
   Serial.println("Dust Density:");
-  Serial.println(dustDensity);
+  Serial.println(normalizedDustDensity);
 
   
   delay(1000);
-  client.println(dustDensity);
-  client.stop();
+ // client.println(dustDensity);
+ // client.stop();
 }
